@@ -1,5 +1,5 @@
 /**
- * TODO: Add a cipher key option to Encode using a cyber.
+ * TODO:
  */
 
 class StealthJS {
@@ -24,27 +24,12 @@ class StealthJS {
     }
 
     async decryptAES(cipherBytes, password) {
-        const salt = cipherBytes.slice(0, 16);
-        const iv = cipherBytes.slice(16, 28);
         const data = cipherBytes.slice(28);
-
-        const keyMaterial = await crypto.subtle.importKey(
+        const iv = cipherBytes.slice(16, 28);
+        const key = await crypto.subtle.importKey(
             "raw",
             new TextEncoder().encode(password),
-            { name: "PBKDF2" },
-            false,
-            ["deriveKey"]
-        );
-
-        const key = await crypto.subtle.deriveKey(
-            {
-                name: "PBKDF2",
-                salt: salt,
-                iterations: 100000,
-                hash: "SHA-256"
-            },
-            keyMaterial,
-            { name: "AES-GCM", length: 256 },
+            { name: "AES-GCM" },
             false,
             ["decrypt"]
         );
@@ -82,32 +67,30 @@ class StealthJS {
     }
 
     deploy(obfuscated) {
-        new Function(obfuscated)();
+        const f = new Function("", obfuscated);
+        f();
+        f = null;
         obfuscated = null;
-        //this.container.innerHTML += obfuscated;
     }
 
     loadViaIframe(url) {
         return new Promise((resolve, reject) => {
-            let iframe = document.getElementById(this.iframeId);
             const key = this.storageKey(url);
+            let iframe = document.getElementById(this.iframeId);
 
             const messageHandler = async (e) => {
-                if (!e.data || e.data.type !== "stealthjs_payload") return;
+                if (!e.data || e.data.type !== "stealthjs_payload" || e.data.url !== url) return;
                 if (e.origin !== this.iframeOrigin) return;
-                if (e.data.url !== url) return;
 
                 window.removeEventListener("message", messageHandler);
-                if (iframe) {
-                    iframe.remove();
-                    iframe = null;
-                }
+                iframe.remove();
+                iframe = null;
 
                 try {
                     const cipherBytes = this.base64ToBytes(e.data.payload);
-                    let decrypted = await this.decryptAES(cipherBytes, this.cipherKey);
-                    decrypted = this.obfuscate(decrypted);
-                    this.deploy(decrypted);
+                    const decrypted = await this.decryptAES(cipherBytes, this.cipherKey);
+                    const obfuscated = this.obfuscate(decrypted);
+                    this.deploy(obfuscated);
                     resolve();
                 } catch (err) {
                     reject(err);
@@ -121,10 +104,7 @@ class StealthJS {
                 iframe.style.display = "none";
                 iframe.id = this.iframeId;
 
-                const params = new URLSearchParams({
-                    url,
-                    storagePrefix: this.storagePrefix
-                });
+                const params = new URLSearchParams({ url, storagePrefix: this.storagePrefix });
                 iframe.src = (this.options.iframeUrl || "stealth-iframe.html") + "?" + params.toString();
 
                 document.body.appendChild(iframe);
@@ -132,10 +112,7 @@ class StealthJS {
 
             setTimeout(() => {
                 window.removeEventListener("message", messageHandler);
-                if (iframe) {
-                    iframe.remove();
-                    iframe = null;
-                }
+                iframe.remove();
                 reject(new Error("StealthJS iframe timeout"));
             }, this.options.timeout || 10000);
         });
