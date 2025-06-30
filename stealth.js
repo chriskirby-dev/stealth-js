@@ -215,6 +215,7 @@ export default StealthJS;
 /**
  * ==========================
  * Example Usage Scenarios:
+
  * ==========================
  *
  * 1. Basic Obfuscated Load (no encryption):
