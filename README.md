@@ -1,4 +1,4 @@
-![Stealth JS Logo](https://raw.githubusercontent.com/chriskirby-dev/stealth-js/tree/9e5712e8f247eb199ee8bf2b783c93ab2272ba7c/assets/stealth-js-logo.png)
+![Stealth JS Logo](https://raw.githubusercontent.com/chriskirby-dev/stealth-js/main/assets/stealth-js-logo.png)
 
 # StealthJS
 
