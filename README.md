@@ -36,32 +36,13 @@ Perfect for:
 
 ```html
 <script>
-(() => {
-  const stealthLoad = async url => {
-    try {
-      const res = await fetch(url);
-      if (!res.ok) throw new Error("Fetch failed");
-      let src = await res.text();
+const options = {};
 
-      // Obfuscation: remove comments, minify, encode strings
-      src = src.replace(/\/\/.*$/gm, '');
-      src = src.replace(/\/\*[\s\S]*?\*\//g, '');
-      src = src.replace(/\s+/g, ' ');
-      src = src.replace(/(['"`])((?:\\\1|.)*?)\1/g, (m, q, s) =>
-        '(' + s.split('').map(c => `String.fromCharCode(${c.charCodeAt(0)})`).join('+') + ')'
-      );
+const stealth = new StealthJS(options);
 
-      // Execute obfuscated code
-      new Function(src)();
+stealth.load("http://chriskirby.me/stealth-script.js");
 
-      // Self-destruct
-      src = null;
-      url = null;
-    } catch (e) {
-      console.error("Stealth loader failed:", e);
-    }
-  };
+--OR--
 
-  stealthLoad('https://example.com/your-script.js'); // <- Replace this
-})();
+stealth.loadToTag("http://chriskirby.me/stealth-script.js");
 </script>
