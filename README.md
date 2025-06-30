@@ -1,4 +1,4 @@
-![Stealth JS Logo](https://raw.githubusercontent.com/chriskirby-dev/stealth-js/master/assets/stealth-js-logo.svg)
+<img src="https://raw.githubusercontent.com/chriskirby-dev/stealth-js/master/assets/stealth-js-logo.svg" style="max-width: 100%; height: auto;" />
 
 # StealthJS
 
