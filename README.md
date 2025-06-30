@@ -1,6 +1,7 @@
-![Stealth JS Logo](https://github.com/chriskirby-dev/stealth-js/tree/9e5712e8f247eb199ee8bf2b783c93ab2272ba7c/assets/stealth-js-logo.png)
+![Stealth JS Logo](https://raw.githubusercontent.com/chriskirby-dev/stealth-js/tree/9e5712e8f247eb199ee8bf2b783c93ab2272ba7c/assets/stealth-js-logo.png)
 
 # StealthJS
+
 
 > A high-security JavaScript loader that fetches, encrypts, caches, obfuscates, and executes scripts dynamically — with optional license protection, expiration logic, and zero network traceability.
 
