@@ -31,6 +31,7 @@ It is optimized to **dramatically speed up subsequent loads** by caching encrypt
 import StealthJS from './stealth.js';
 
 const loader = new StealthJS();
+
 loader.load('script.js');
 
 ### 2. Load AES-GCM Encrypted Script
@@ -38,6 +39,7 @@ loader.load('script.js');
 const loader = new StealthJS({
   cipherKey: 'mySecretPassword'
 });
+
 loader.load('secure.js');
 
 ### 3. Add License Check and Expiration
@@ -47,6 +49,7 @@ const loader = new StealthJS({
   expireTime: Date.now() + 3600 * 1000, // 1 hour from now
   checkLicense: () => localStorage.getItem('licenseKey') === 'VALID'
 });
+
 loader.load('locked.js');
 
 ### 4. Enable Debug Logging
